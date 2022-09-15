@@ -39,11 +39,19 @@ export default async function handler(req, res) {
     redirect: 'follow'
     };
 
-    await fetch("https://platform.antares.id:8443/~/antares-cse/antares-id/LoRaAntaresGateway/SensorNode/la", requestOptions)
+    await fetch("https://platform.antares.id:8443/~/antares-cse/antares-id/LORA22/LoRa/la", requestOptions)
     .then(response => response.json())
     .then(result => {
         message = "success"
-        data = result["m2m:cin"].con
+        let dataJson = JSON.parse(result["m2m:cin"].con).data
+
+        const pm1 = parseInt(dataJson.slice(0,4), 16);
+        const pm25 = parseInt(dataJson.slice(4,8), 16);
+        const pm10 = parseInt(dataJson.slice(8,12), 16);
+        const temp = parseInt(dataJson.slice(12,16), 16)/100;
+        const hum = parseInt(dataJson.slice(16,20), 16)/100;
+
+        data = `${pm1}:${pm25}:${pm10}:${temp}:${hum}`
 
         let dataSensor = data.split(":")
         
