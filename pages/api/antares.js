@@ -50,8 +50,9 @@ export default async function handler(req, res) {
         const pm10 = parseInt(dataJson.slice(8,12), 16);
         const temp = parseInt(dataJson.slice(12,16), 16)/100;
         const hum = parseInt(dataJson.slice(16,20), 16)/100;
+        const flow = parseInt(dataJson.slice(20,24), 16)/100 || 0.003;
 
-        data = `${pm1}:${pm25}:${pm10}:${temp}:${hum}`
+        data = `${pm1}:${pm25}:${pm10}:${temp}:${hum}:${flow}`
 
         let dataSensor = data.split(":")
         
